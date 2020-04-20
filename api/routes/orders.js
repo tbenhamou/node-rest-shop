@@ -18,7 +18,7 @@ router.get("/", (req, res, next) => {
             _id: doc._id,
             product: doc.product,
             quantity: doc.quantity,
-            request: {
+            links: {
               type: "GET",
               url: process.env.APP_URL + "orders/" + doc._id,
             },
@@ -51,7 +51,7 @@ router.post("/", (req, res, next) => {
           _id: doc._id,
           product: doc.product,
           quantity: doc.quantity,
-          request: {
+          links: {
             type: "GET",
             url: process.env.APP_URL + "orders/" + doc._id,
           },
@@ -82,7 +82,7 @@ router.get("/:orderId", (req, res, next) => {
           product: doc.product,
           quantity: doc.quantity,
         },
-        request: {
+        links: {
           type: "GET",
           url: process.env.APP_URL + "orders",
         },
@@ -99,7 +99,7 @@ router.get("/:orderId", (req, res, next) => {
 router.patch("/:orderId", (req, res, next) => {
   const id = req.params.orderId;
   res.status(200).json({
-    message: "Update request",
+    message: "Updated Order",
     id: id,
   });
 });
@@ -110,7 +110,7 @@ router.delete("/:orderId", (req, res, next) => {
     .then((result) => {
       res.status(200).json({
         message: "Order successfully deleted!",
-        request: {
+        links: {
           type: "POST",
           url: process.env.APP_URL + "orders",
           body: { product: "ID", quantity: "Number" },

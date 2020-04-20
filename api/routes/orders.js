@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+const checkAuth = require("../middlewares/check-auth");
+
 const Order = require("../models/order");
 const Product = require("../models/product");
 
@@ -29,7 +31,7 @@ router.get("/", (req, res, next) => {
     .catch();
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", checkAuth, (req, res, next) => {
   Product.findById(req.body.product)
     .then((product) => {
       if (!product) {
@@ -96,7 +98,7 @@ router.get("/:orderId", (req, res, next) => {
 });
 
 // @TODO
-router.patch("/:orderId", (req, res, next) => {
+router.patch("/:orderId", checkAuth, (req, res, next) => {
   const id = req.params.orderId;
   res.status(200).json({
     message: "Updated Order",
@@ -104,7 +106,7 @@ router.patch("/:orderId", (req, res, next) => {
   });
 });
 
-router.delete("/:orderId", (req, res, next) => {
+router.delete("/:orderId", checkAuth, (req, res, next) => {
   Order.deleteOne({ _id: req.params.orderId })
     .exec()
     .then((result) => {
